@@ -1,14 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="My Portfolio for Web-based Development course's assignment">
-        <meta name="author" content="Athian Nugraha Muarajuang">
-        <title>Portofolio</title>
-        <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="My Portfolio for Web-based Development course's assignment">
+  <meta name="author" content="Athian Nugraha Muarajuang">
+  <title>Athian's Portofolio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-        
+  <header>
+    <nav class="nav">
+      <ul class="nav-list">
+        <li><a href="#about" class="nav-item">About Me</a></li>
+        <li><a href="#projects" class="nav-item">Projects</a></li>
+        <li><a href="#contact" class="nav-item">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="home">
+      <div>
+        <span><img src="public/Athian.jpg" alt="My photo" /></span>
+        <span>
+          <h2>Hello! I'm <span>Athian</span></h2>
+          An Undergraduate, currently a Third Year Informatics Engineering Major, at
+          Institut Teknologi Bandung. Focused
+          on back-end development.
+        </span>
+      </div>
+    </section>
+    <section id="about">
+      <h2>About Me</h2>
+    </section>
+    <section id="skills">
+      <h2>My skills</h2>
+      <div>
+        <span class="logo-container">
+          <img src="public/skills/html.svg" alt="HTML" />
+          <img src="public/skills/css.svg" alt="CSS" />
+          <img src="public/skills/python-5.svg" alt="Python" />
+          <img src="public/skills/go.svg" alt="Go" />
+          <img src="public/skills/java.svg" alt="Java" />
+          <img src="public/skills/javascript-1.svg" alt="JavaScript" />
+        </span>
+      </div>
+    </section>
+    <section id="projects">
+      <h2>My Projects</h2>
+      <div>
+        <div>
+          <h4>Setorin</h4>
+          <p>Smart waste management system using AI vision (OpenCV + YOLO) 
+            and IoT integration.</p>
+          <a href="https://github.com/pablonification/Setorin-AICCompfest2025" target="_blank">View Project</a>
+        </div>
+        <div>
+          <h4>Audio Searcher</h4>
+          <p>A web application built to search and process MIDI audio 
+            files and images, with the aim of matching data based on 
+            features extracted from these files.</p>
+          <a href="https://github.com/Starath/Algeo02_23078" target="_blank">View
+            Project</a>
+        </div>
+        <div>
+          <h4>Utilization of BFS and DFS Algorithms in Recipe Search in Little Alchemy 2 Game</h4>
+          <p>A website for finding ways to create specific 
+            elements in the game Little Alchemy 2. Users can select the 
+            target element, search method (BFS or DFS), search mode 
+            (single recipe or multiple recipes), and the number of recipes 
+            they want to display. Search results will be displayed in the 
+            form of an interactive tree visualization along with 
+            information about execution time and the number of nodes 
+            visited.</p>
+          <a href="https://github.com/rafifrs/Tubes2_FE_SayMyName" target="_blank">View
+            Project</a>
+        </div>
+        <div>
+          <h4>ChatTCP</h4>
+          <p>Implementation of socket programming in Python, 
+            which includes two main parts: (1) Creation of a TCP over 
+            UDP protocol with three-way handshake, flow control 
+            (sliding window), and error detection (checksum) features 
+            (2) A simple client-server-based CLI chat room application.</p>
+          <a href="https://github.com/labsister22/tugas-besar-if2230-jaringan-komputer-bangkasinapasdikitnapa" target="_blank">View Project</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="contact">
+    <div>
+      <h2>Contact Me!</h2>
+    </div>
+    <div>
+      <span>
+        <a href="https://Instagram.com/tyanstah"><img src="public/contact/instagram_logo.svg" alt="Instagram"
+            class="logo" /></a>
+        <a href="https://github.com/Starath"><img src="public/contact/github_logo.svg" class="logo" alt="GitHub" /></a>
+        <a href="https://www.linkedin.com/in/athian-nugraha-muarajuang-15a39129a/"><img
+            src="public/contact/linkedin_logo.svg" alt="LinkedIn" class="logo" </a>
+        <a href="mailto:athianbintang@gmail.com"><img
+            src="public/contact/gmail_logo.svg" alt="Gmail" class="logo" </a>
+      </span>
+    </div>
+  </footer>
 </body>
+
 </html>

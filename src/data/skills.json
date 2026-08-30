@@ -1,0 +1,56 @@
+[
+  {
+    "id": "python",
+    "name": "Python",
+    "category": "Languages & Systems",
+    "icon": "/skills/python-5.svg",
+    "alt": "Python",
+    "description": "Socket transport layers, sliding window flow control, OpenCV & YOLOv8 pipelines",
+    "order": 1
+  },
+  {
+    "id": "go",
+    "name": "Go (Golang)",
+    "category": "Languages & Systems",
+    "icon": "/skills/go.svg",
+    "alt": "Go",
+    "description": "Concurrent services, goroutines/channels, network primitives",
+    "order": 2
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "category": "Languages & Systems",
+    "icon": "/skills/java.svg",
+    "alt": "Java",
+    "description": "Object-oriented design patterns, data structure implementations, algorithm analysis",
+    "order": 3
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript (ES6+)",
+    "category": "Web & Tooling",
+    "icon": "/skills/javascript-1.svg",
+    "alt": "JavaScript",
+    "description": "Asynchronous event loops, DOM tree manipulation, Node.js scripts",
+    "order": 4
+  },
+  {
+    "id": "html",
+    "name": "HTML5",
+    "category": "Web & Tooling",
+    "icon": "/skills/html.svg",
+    "alt": "HTML5",
+    "description": "Semantic document outlines, WCAG accessibility, structured metadata",
+    "order": 5
+  },
+  {
+    "id": "css",
+    "name": "CSS3 / Modern Layout",
+    "category": "Web & Tooling",
+    "icon": "/skills/css.svg",
+    "alt": "CSS3",
+    "description": "CSS Grid & Flexbox, design token variables, media query motion gates",
+    "order": 6
+  }
+]

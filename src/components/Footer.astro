@@ -1,0 +1,89 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="meta-left">
+      <span class="student-id">&copy; {currentYear} ATHIAN NUGRAHA MUARAJUANG (13523106)</span>
+      <span class="meta-divider" aria-hidden="true">&bull;</span>
+      <span class="student-univ">ITB INFORMATICS</span>
+    </div>
+
+    <div class="meta-center">
+      <span>ASTRO 7 // STATIC-FIRST</span>
+    </div>
+
+    <div class="meta-right">
+      <a href="#home" class="back-top-btn" aria-label="Return to top of page">
+        <span>[ RETURN TO TOP &uarr; ]</span>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border-default);
+    background-color: var(--bg-surface);
+    padding: 1.5rem 0;
+  }
+
+  .footer-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+
+  .meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .student-id {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .meta-divider {
+    color: var(--border-strong);
+  }
+
+  .student-univ {
+    color: var(--text-muted);
+  }
+
+  .meta-center {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+
+  .back-top-btn {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .back-top-btn:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0 1rem;
+    }
+  }
+</style>

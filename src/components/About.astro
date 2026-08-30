@@ -1,0 +1,118 @@
+---
+const coursework = [
+  { code: 'IF2230', name: 'Computer Networks', note: 'TCP over UDP protocol implementation & socket programming' },
+  { code: 'IF2211', name: 'Algorithm Strategies', note: 'BFS/DFS tree traversal, branch & bound, divide and conquer' },
+  { code: 'IF2110', name: 'Algorithm & Data Structures', note: 'Abstract data types, tree/graph structures, memory management' },
+  { code: 'IF2123', name: 'Linear Algebra & Geometry', note: 'Audio/image feature extraction, PCA, matrix similarity' },
+  { code: 'IF2150', name: 'Web-based Development', note: 'Client-server architecture, modern static generation, performance' },
+];
+---
+
+<section id="about" class="about-section">
+  <div class="section-header">
+    <span class="section-label">01 // Background</span>
+    <h2 class="section-title">About & Academic Track</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="bio-column">
+      <h3 class="subsection-title">Engineering Focus</h3>
+      <p class="bio-p">
+        I am a third-year undergraduate in Informatics Engineering (Teknik Informatika) at <strong>Institut Teknologi Bandung (ITB)</strong>, Class of 2023. My primary technical interest lies in <strong>systems and back-end development</strong>—specifically understanding how networked systems coordinate, recover from errors, and scale.
+      </p>
+      <p class="bio-p">
+        Alongside systems programming, I explore applied artificial intelligence and computer vision. Rather than treating AI as a black box, I focus on integrating lightweight inference pipelines (such as YOLOv8 and OpenCV) with reliable backend services and hardware telemetry.
+      </p>
+    </div>
+
+    <div class="academic-column">
+      <h3 class="subsection-title">Selected ITB Coursework</h3>
+      <div class="course-list">
+        {coursework.map((course) => (
+          <div class="course-row">
+            <div class="course-header">
+              <span class="course-code">{course.code}</span>
+              <span class="course-name">{course.name}</span>
+            </div>
+            <p class="course-note">{course.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+  }
+
+  .subsection-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .bio-p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .bio-p strong {
+    color: var(--text-primary);
+  }
+
+  .course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .course-row {
+    padding: 0.75rem 0.9rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+  }
+
+  .course-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .course-code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .course-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  .course-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>

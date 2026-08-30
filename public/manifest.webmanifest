@@ -1,0 +1,23 @@
+{
+  "name": "Athian Nugraha Muarajuang — Portfolio",
+  "short_name": "Athian's Portfolio",
+  "description": "Informatics Engineering student at ITB specializing in back-end systems and AI.",
+  "start_url": "/portfolio/",
+  "scope": "/portfolio/",
+  "display": "standalone",
+  "background_color": "#0F0F11",
+  "theme_color": "#0F0F11",
+  "icons": [
+    {
+      "src": "/portfolio/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/portfolio/Athian.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

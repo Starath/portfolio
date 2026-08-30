@@ -1,0 +1,158 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Athian Nugraha Muarajuang — Systems & Back-End Developer",
+  description = "Informatics Engineering undergraduate at Institut Teknologi Bandung (ITB). Work spans custom socket transport protocols, real-time computer vision pipelines, and backend services.",
+  image = "/Athian.jpg",
+} = Astro.props;
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://starath.github.io';
+const productionBase = `${siteUrl}${baseUrl}`;
+
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const imagePath = image.startsWith('/') ? `${baseUrl}${image}` : `${baseUrl}/${image}`;
+const imageURL = new URL(imagePath, siteUrl);
+
+const jsonLdGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${productionBase}/#website`,
+      "url": `${productionBase}/`,
+      "name": "Athian Nugraha Muarajuang",
+      "description": description,
+      "publisher": {
+        "@id": `${productionBase}/#person`
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${productionBase}/#webpage`,
+      "url": `${productionBase}/`,
+      "name": title,
+      "isPartOf": {
+        "@id": `${productionBase}/#website`
+      },
+      "about": {
+        "@id": `${productionBase}/#person`
+      },
+      "mainEntity": {
+        "@id": `${productionBase}/#person`
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": `${productionBase}/#person`,
+      "name": "Athian Nugraha Muarajuang",
+      "alternateName": ["Athian", "Starath"],
+      "url": `${productionBase}/`,
+      "image": {
+        "@type": "ImageObject",
+        "@id": `${productionBase}/#personimage`,
+        "url": imageURL.href,
+        "caption": "Athian Nugraha Muarajuang"
+      },
+      "jobTitle": "Informatics Engineering Student & Systems Developer",
+      "description": description,
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "Institut Teknologi Bandung",
+        "alternateName": "ITB",
+        "url": "https://www.itb.ac.id"
+      },
+      "sameAs": [
+        "https://github.com/Starath",
+        "https://www.linkedin.com/in/athian-nugraha-muarajuang-15a39129a/",
+        "https://instagram.com/tyanstah"
+      ],
+      "knowsAbout": [
+        "Socket & Network Programming",
+        "Python",
+        "Go",
+        "Java",
+        "Computer Vision",
+        "OpenCV",
+        "YOLOv8",
+        "Algorithms & Data Structures"
+      ]
+    }
+  ]
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+  
+  <!-- Primary Meta Tags -->
+  <title>{title}</title>
+  <meta name="title" content={title} />
+  <meta name="description" content={description} />
+  <meta name="author" content="Athian Nugraha Muarajuang" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#090A0C" />
+  <link rel="canonical" href={canonicalURL.href} />
+  
+  <!-- Manifest & Favicons -->
+  <link rel="manifest" href={`${baseUrl}/manifest.webmanifest`} />
+  <link rel="icon" type="image/svg+xml" href={`${baseUrl}/favicon.svg`} />
+  <link rel="apple-touch-icon" href={`${baseUrl}/Athian.jpg`} />
+  
+  <!-- Google Fonts: Space Grotesk, IBM Plex Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link 
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" 
+    rel="stylesheet" 
+  />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content={canonicalURL.href} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={imageURL.href} />
+  <meta property="og:image:alt" content="Athian Nugraha Muarajuang" />
+  <meta property="og:site_name" content="Athian Nugraha Muarajuang" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content={canonicalURL.href} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={imageURL.href} />
+  <meta name="twitter:image:alt" content="Athian Nugraha Muarajuang" />
+
+  <!-- Schema.org JSON-LD -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />
+</head>
+
+<body>
+  <div class="technical-grid-bg" aria-hidden="true"></div>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <Header />
+  
+  <main id="main">
+    <slot />
+  </main>
+
+  <Footer />
+</body>
+</html>

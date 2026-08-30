@@ -1,0 +1,349 @@
+---
+import { getCollection } from 'astro:content';
+
+const rawSkills = await getCollection('skills');
+const skills = rawSkills.sort((a, b) => a.data.order - b.data.order);
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const domains = [
+  {
+    name: 'Core Languages',
+    tag: 'lang',
+    items: ['Python', 'Go', 'Java', 'JavaScript (ES6+)'],
+  },
+  {
+    name: 'Systems & Networking',
+    tag: 'sys',
+    items: ['Socket Programming (TCP/UDP)', 'Sliding Window Protocols', 'Checksum Verification', 'RESTful APIs'],
+  },
+  {
+    name: 'Applied AI & Math',
+    tag: 'ai',
+    items: ['OpenCV', 'YOLOv8 Object Detection', 'Pitch Histogram Extraction', 'Graph Traversal (BFS/DFS)'],
+  },
+  {
+    name: 'Tools & Platforms',
+    tag: 'tools',
+    items: ['Git & GitHub', 'Linux / POSIX Shell', 'Astro SSG', 'VS Code'],
+  },
+];
+---
+
+<section id="skills" class="skills-section">
+  <div class="section-header">
+    <span class="section-label">02 // Capabilities</span>
+    <h2 class="section-title">Technical Stack & Domains</h2>
+    <p class="section-desc">Languages, network protocol components, and applied AI systems verified through coursework and implementations.</p>
+  </div>
+
+  <div class="skills-layout">
+    <!-- Accessible Filter Toolbar -->
+    <div class="filter-toolbar">
+      <div class="filter-group" role="group" aria-label="Filter skills by domain">
+        <button type="button" class="filter-btn is-active" data-filter="all" aria-pressed="true">
+          <span>[ ALL ]</span>
+        </button>
+        <button type="button" class="filter-btn" data-filter="Languages & Systems" aria-pressed="false">
+          <span>[ SYSTEMS & LANGUAGES ]</span>
+        </button>
+        <button type="button" class="filter-btn" data-filter="Web & Tooling" aria-pressed="false">
+          <span>[ WEB & TOOLING ]</span>
+        </button>
+      </div>
+
+      <div class="skills-counter" id="skills-counter" aria-live="polite" aria-atomic="true">
+        <span class="count-num">6</span> / 6 SKILLS ACTIVE
+      </div>
+    </div>
+
+    <!-- Primary Tooling Grid -->
+    <div class="skills-grid" id="skills-grid" role="list">
+      {skills.map((skill) => {
+        const iconSrc = skill.data.icon.startsWith('http') 
+          ? skill.data.icon 
+          : `${baseUrl}${skill.data.icon.startsWith('/') ? '' : '/'}${skill.data.icon}`;
+
+        return (
+          <div class="skill-item" role="listitem" data-category={skill.data.category}>
+            <div class="skill-head">
+              <img
+                src={iconSrc}
+                alt=""
+                width="20"
+                height="20"
+                loading="lazy"
+                decoding="async"
+                class="skill-icon"
+              />
+              <span class="skill-title">{skill.data.name}</span>
+              <span class="skill-cat-badge">{skill.data.category}</span>
+            </div>
+            <p class="skill-desc">{skill.data.description}</p>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- Domain Competency Matrix -->
+    <div class="domain-matrix">
+      <div class="matrix-head">
+        <h3 class="matrix-title">System & Domain Architecture</h3>
+        <span class="matrix-spec">SPEC // 4 CORE COMPETENCIES</span>
+      </div>
+
+      <div class="domain-grid">
+        {domains.map((domain) => (
+          <div class="domain-card" data-domain={domain.tag}>
+            <span class="domain-name">{domain.name}</span>
+            <ul class="domain-items">
+              {domain.items.map((item) => (
+                <li class="domain-tag">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const skillItems = document.querySelectorAll('.skill-item');
+  const counterEl = document.getElementById('skills-counter');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      const filter = btn.getAttribute('data-filter');
+      let visibleCount = 0;
+
+      skillItems.forEach((item) => {
+        const cat = item.getAttribute('data-category');
+        const shouldShow = filter === 'all' || cat === filter;
+        item.hidden = !shouldShow;
+        if (shouldShow) {
+          item.style.display = 'flex';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      if (counterEl) {
+        counterEl.replaceChildren();
+        const numSpan = document.createElement('span');
+        numSpan.className = 'count-num';
+        numSpan.textContent = visibleCount.toString();
+        counterEl.append(numSpan, document.createTextNode(` / ${skillItems.length} SKILLS ACTIVE`));
+      }
+    });
+  });
+</script>
+
+<style>
+  .skills-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+  }
+
+  /* Filter Toolbar */
+  .filter-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.85rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-surface-elevated);
+    border-color: var(--border-default);
+  }
+
+  .filter-btn.is-active {
+    background-color: var(--bg-surface-elevated);
+    color: var(--accent);
+    border-color: var(--border-strong);
+    font-weight: 600;
+  }
+
+  .skills-counter {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .count-num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Grid */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .skill-item {
+    padding: 1.15rem 1.25rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .skill-item:hover {
+    background-color: var(--bg-surface-elevated);
+    border-color: var(--border-strong);
+  }
+
+  .skill-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .skill-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.9;
+  }
+
+  .skill-title {
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .skill-cat-badge {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    background-color: var(--bg-canvas);
+    border: 1px solid var(--border-default);
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--radius-xs);
+  }
+
+  .skill-desc {
+    font-size: 0.86rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Domain Matrix */
+  .domain-matrix {
+    padding-top: 0.5rem;
+  }
+
+  .matrix-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .matrix-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .matrix-spec {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .domain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .domain-card {
+    padding: 1.15rem 1.25rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+  }
+
+  .domain-name {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .domain-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .domain-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background-color: var(--bg-canvas);
+    border: 1px solid var(--border-default);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (max-width: 768px) {
+    .skills-grid,
+    .domain-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

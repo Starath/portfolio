@@ -1,0 +1,627 @@
+---
+import { Picture } from 'astro:assets';
+import avatarPhoto from '../assets/Athian.jpg';
+
+interface Props {
+  name?: string;
+}
+
+const {
+  name = 'Athian Nugraha Muarajuang',
+} = Astro.props;
+---
+
+<section id="home" class="hero-section">
+  <!-- Telemetry Top Bar -->
+  <div class="telemetry-bar" aria-label="System telemetry">
+    <div class="telemetry-item">
+      <span class="telemetry-dot" aria-hidden="true"></span>
+      <span class="telemetry-label">NODE:</span>
+      <span class="telemetry-val">ITB.IF.13523106</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">REGION:</span>
+      <span class="telemetry-val">BANDUNG (UTC+7)</span>
+    </div>
+    <div class="telemetry-item" id="live-clock-wrapper">
+      <span class="telemetry-label">LOCAL:</span>
+      <span class="telemetry-val" id="live-clock">--:--:-- WIB</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-label">STACK:</span>
+      <span class="telemetry-val">ASTRO 7 // STATIC-FIRST</span>
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <!-- Left Column: Identity & Bio -->
+    <div class="hero-identity">
+      <div class="id-header">
+        <div class="avatar-box">
+          <Picture
+            src={avatarPhoto}
+            alt="Athian Nugraha Muarajuang portrait"
+            widths={[160, 240, 320, 480]}
+            sizes="(max-width: 768px) 110px, 140px"
+            formats={['avif', 'webp']}
+            quality={92}
+            loading="eager"
+            decoding="async"
+            class="avatar-img"
+          />
+        </div>
+
+        <div class="id-names">
+          <div class="id-tag">INFORMATICS ENGINEERING UNDERGRADUATE</div>
+          <h1 class="hero-name">{name}</h1>
+          <div class="hero-focus">
+            <span class="focus-bracket">[</span>
+            <span class="focus-role">Systems & Back-End Developer</span>
+            <span class="focus-bracket">]</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="hero-statement">
+        Third-year student at <strong>Institut Teknologi Bandung (ITB)</strong>. Building custom transport protocols, socket state machines, and real-time computer vision inference pipelines.
+      </p>
+
+      <div class="action-dock">
+        <a href="#projects" class="cmd-btn cmd-primary">
+          <span class="cmd-prompt">&gt;</span>
+          <span>View Projects</span>
+        </a>
+        <a href="#contact" class="cmd-btn cmd-secondary">
+          <span>Get in Touch</span>
+        </a>
+        <a
+          href="https://github.com/Starath"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cmd-btn cmd-secondary"
+          aria-label="GitHub profile (opens in new tab)"
+        >
+          <span>github.com/Starath ↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive System Terminal -->
+    <div class="terminal-container" aria-label="Interactive developer console">
+      <div class="terminal-header">
+        <div class="window-controls" aria-hidden="true">
+          <span class="win-btn win-close"></span>
+          <span class="win-btn win-min"></span>
+          <span class="win-btn win-max"></span>
+        </div>
+        <div class="terminal-title">athian@itb-node: ~ (zsh)</div>
+        <div class="terminal-status">LIVE</div>
+      </div>
+
+      <div class="terminal-body" id="terminal-body" role="region" aria-live="polite">
+        <div class="term-line">
+          <span class="term-prompt">athian@itb:~$</span>
+          <span class="term-cmd">cat overview.json</span>
+        </div>
+        <div class="term-output">
+          <pre class="term-pre"><code>&#123;
+  "name": "Athian Nugraha Muarajuang",
+  "university": "Institut Teknologi Bandung",
+  "major": "Informatics Engineering (2023-present)",
+  "focus": ["Socket Protocols", "YOLOv8 & OpenCV", "Backend Systems"],
+  "status": "Available for internships & collaborations"
+&#125;</code></pre>
+        </div>
+
+        <div id="term-history"></div>
+
+        <div class="term-input-row">
+          <label for="term-input" class="term-prompt">athian@itb:~$</label>
+          <input
+            type="text"
+            id="term-input"
+            class="term-input"
+            placeholder="type 'help', 'projects', 'skills', 'ping'..."
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Interactive terminal input"
+          />
+        </div>
+      </div>
+
+      <div class="terminal-quick-chips">
+        <span class="chip-label">Quick Commands:</span>
+        <button type="button" class="term-chip" data-cmd="help">help</button>
+        <button type="button" class="term-chip" data-cmd="projects">projects</button>
+        <button type="button" class="term-chip" data-cmd="skills">skills</button>
+        <button type="button" class="term-chip" data-cmd="ping">ping</button>
+        <button type="button" class="term-chip" data-cmd="clear">clear</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Live Bandung Clock (WIB UTC+7)
+  function updateClock() {
+    const clockEl = document.getElementById('live-clock');
+    if (!clockEl) return;
+    const now = new Date();
+    const options = { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    clockEl.textContent = `${new Intl.DateTimeFormat('en-GB', options).format(now)} WIB`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Interactive Terminal REPL - Secure Safe DOM Implementation
+  const inputEl = document.getElementById('term-input');
+  const historyEl = document.getElementById('term-history');
+  const chips = document.querySelectorAll('.term-chip');
+  const terminalBody = document.getElementById('terminal-body');
+
+  const commands = {
+    help: `Available commands:
+  • projects   - List active engineering case studies
+  • skills     - Print core language & protocol matrix
+  • about      - View academic background & ITB focus
+  • ping       - Measure simulated round-trip socket latency
+  • clear      - Clear terminal screen`,
+    
+    projects: `[PROJECT INDEX]
+  01 // ChatTCP      - Reliable UDP transport protocol (Sliding Window, Checksum)
+  02 // Setorin      - AI Waste sorting & IoT telemetry (YOLOv8 + OpenCV)
+  03 // Audio Search - Content-based MIDI & image retrieval (Cosine Similarity)
+  04 // LittleAlchemy- Recipe graph traversal visualizer (BFS & DFS)`,
+    
+    skills: `[TECHNICAL STACK]
+  • Languages: Python, Go, Java, JavaScript (ES6+)
+  • Protocols: UDP/TCP Sockets, Sliding Window, Checksum verification
+  • Applied AI: YOLOv8, OpenCV, Pitch Histogram extraction
+  • Tooling: Linux/POSIX, Git, Astro SSG`,
+    
+    about: `Athian Nugraha Muarajuang (13523106)
+3rd-year Informatics Engineering undergraduate at ITB.
+Focused on systems engineering, low-level transport protocols, and computer vision.`,
+    
+    ping: `PING itb.ac.id (167.205.22.84): 56 data bytes
+64 bytes from 167.205.22.84: icmp_seq=0 ttl=58 time=14.2 ms
+64 bytes from 167.205.22.84: icmp_seq=1 ttl=58 time=12.8 ms
+--- itb.ac.id ping statistics ---
+2 packets transmitted, 2 packets received, 0.0% packet loss
+rtt min/avg/max = 12.8/13.5/14.2 ms`
+  };
+
+  function executeCommand(cmd) {
+    if (!historyEl || !terminalBody) return;
+    const trimmed = cmd.trim();
+    if (!trimmed) return;
+
+    const cleanCmd = trimmed.toLowerCase();
+
+    if (cleanCmd === 'clear') {
+      historyEl.replaceChildren();
+      return;
+    }
+
+    const outputText = commands[cleanCmd] || `zsh: command not found: ${cleanCmd}. Type 'help' for valid commands.`;
+    
+    const entry = document.createElement('div');
+    entry.className = 'term-history-entry';
+
+    const line = document.createElement('div');
+    line.className = 'term-line';
+
+    const promptSpan = document.createElement('span');
+    promptSpan.className = 'term-prompt';
+    promptSpan.textContent = 'athian@itb:~$';
+
+    const cmdSpan = document.createElement('span');
+    cmdSpan.className = 'term-cmd';
+    cmdSpan.textContent = trimmed;
+
+    line.append(promptSpan, cmdSpan);
+
+    const outDiv = document.createElement('div');
+    outDiv.className = 'term-output';
+
+    const pre = document.createElement('pre');
+    pre.className = 'term-pre';
+
+    const code = document.createElement('code');
+    code.textContent = outputText;
+
+    pre.appendChild(code);
+    outDiv.appendChild(pre);
+
+    entry.append(line, outDiv);
+    historyEl.appendChild(entry);
+    terminalBody.scrollTop = terminalBody.scrollHeight;
+  }
+
+  if (inputEl) {
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const val = inputEl.value;
+        inputEl.value = '';
+        executeCommand(val);
+      }
+    });
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cmd = chip.getAttribute('data-cmd');
+      if (cmd) executeCommand(cmd);
+    });
+  });
+</script>
+
+<style>
+  .hero-section {
+    padding: 2.5rem 0 3.5rem;
+  }
+
+  /* Telemetry Bar */
+  .telemetry-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.85rem;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .telemetry-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .telemetry-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .telemetry-label {
+    color: var(--text-muted);
+  }
+
+  .telemetry-val {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* Hero Grid */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 2.75rem;
+    align-items: start;
+  }
+
+  /* Identity */
+  .hero-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .id-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .avatar-box {
+    width: 140px;
+    height: 140px;
+    border: 1px solid var(--border-default);
+    background-color: var(--bg-surface);
+    padding: 3px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: calc(var(--radius-sm) - 1px);
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+
+  .id-names {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .id-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+
+  .hero-name {
+    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-focus {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+
+  .focus-bracket {
+    color: var(--accent);
+  }
+
+  .focus-role {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .hero-statement {
+    font-size: 0.98rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .hero-statement strong {
+    color: var(--text-primary);
+  }
+
+  .action-dock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.5rem;
+  }
+
+  .cmd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.55rem 0.95rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .cmd-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-canvas);
+    border: 1px solid var(--text-primary);
+    font-weight: 600;
+  }
+
+  .cmd-primary:hover {
+    background-color: #E5E7EB;
+  }
+
+  .cmd-prompt {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .cmd-secondary {
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+  }
+
+  .cmd-secondary:hover {
+    background-color: var(--bg-surface-hover);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  /* Interactive Terminal */
+  .terminal-container {
+    background-color: var(--bg-terminal);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .terminal-header {
+    background-color: var(--bg-surface);
+    padding: 0.6rem 0.85rem;
+    border-bottom: 1px solid var(--border-default);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .window-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .win-btn {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .win-close { background-color: #EF4444; }
+  .win-min { background-color: #F59E0B; }
+  .win-max { background-color: #10B981; }
+
+  .terminal-title {
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .terminal-status {
+    color: var(--accent);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .terminal-body {
+    padding: 1rem 1.15rem;
+    max-height: 250px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .term-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .term-prompt {
+    color: var(--accent);
+    font-weight: 600;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .term-cmd {
+    color: var(--text-primary);
+  }
+
+  .term-output {
+    color: var(--text-secondary);
+  }
+
+  .term-pre {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    white-space: pre-wrap;
+    line-height: 1.45;
+  }
+
+  .term-pre code {
+    color: var(--text-code);
+  }
+
+  .term-history-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.35rem;
+    border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  }
+
+  .term-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .term-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    outline: none;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .term-input::placeholder {
+    color: #4B5563;
+  }
+
+  .terminal-quick-chips {
+    background-color: var(--bg-surface);
+    padding: 0.5rem 0.85rem;
+    border-top: 1px solid var(--border-default);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .chip-label {
+    color: var(--text-muted);
+    margin-right: 0.2rem;
+  }
+
+  .term-chip {
+    background-color: var(--bg-surface-elevated);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xs);
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0.2rem 0.45rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .term-chip:hover {
+    color: var(--accent);
+    border-color: var(--border-strong);
+    background-color: var(--bg-surface-hover);
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .telemetry-bar {
+      font-size: 0.68rem;
+    }
+
+    .id-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .avatar-box {
+      width: 110px;
+      height: 110px;
+    }
+  }
+</style>

@@ -52,7 +52,7 @@ const domains = [
       </div>
 
       <div class="skills-counter" id="skills-counter" aria-live="polite" aria-atomic="true">
-        <span class="count-num">6</span> / 6 SKILLS ACTIVE
+        <span class="count-num">{skills.length}</span> / {skills.length} SKILLS ACTIVE
       </div>
     </div>
 
@@ -111,6 +111,7 @@ const domains = [
   const filterBtns = document.querySelectorAll('.filter-btn');
   const skillItems = document.querySelectorAll('.skill-item');
   const counterEl = document.getElementById('skills-counter');
+  const countNum = counterEl ? counterEl.querySelector('.count-num') : null;
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -136,12 +137,8 @@ const domains = [
         }
       });
 
-      if (counterEl) {
-        counterEl.replaceChildren();
-        const numSpan = document.createElement('span');
-        numSpan.className = 'count-num';
-        numSpan.textContent = visibleCount.toString();
-        counterEl.append(numSpan, document.createTextNode(` / ${skillItems.length} SKILLS ACTIVE`));
+      if (counterEl && countNum) {
+        countNum.textContent = visibleCount.toString();
       }
     });
   });
@@ -175,15 +172,21 @@ const domains = [
   }
 
   .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     background: transparent;
     border: 1px solid transparent;
     color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    padding: 0.3rem 0.6rem;
+    line-height: 1.25;
+    padding: 0.5rem 0.7rem;
     border-radius: var(--radius-xs);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
   }
 
   .filter-btn:hover {
@@ -192,22 +195,34 @@ const domains = [
     border-color: var(--border-default);
   }
 
-  .filter-btn.is-active {
+  .filter-btn.is-active,
+  .filter-btn[aria-pressed="true"] {
     background-color: var(--bg-surface-elevated);
     color: var(--accent);
     border-color: var(--border-strong);
+    box-shadow: inset 0 -2px 0 var(--accent);
     font-weight: 600;
+  }
+
+  .filter-btn:focus-visible {
+    border-color: var(--border-focus);
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
   }
 
   .skills-counter {
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   .count-num {
+    display: inline-block;
+    min-width: 2ch;
     color: var(--accent);
     font-weight: 600;
+    text-align: right;
   }
 
   /* Grid */
@@ -237,6 +252,8 @@ const domains = [
     display: flex;
     align-items: center;
     gap: 0.65rem;
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   .skill-icon {
@@ -246,14 +263,17 @@ const domains = [
   }
 
   .skill-title {
+    min-width: 0;
     font-family: var(--font-mono);
     font-size: 0.92rem;
     font-weight: 600;
     color: var(--text-primary);
+    overflow-wrap: anywhere;
   }
 
   .skill-cat-badge {
     margin-left: auto;
+    max-width: 100%;
     font-family: var(--font-mono);
     font-size: 0.68rem;
     color: var(--text-muted);
@@ -261,6 +281,7 @@ const domains = [
     border: 1px solid var(--border-default);
     padding: 0.1rem 0.35rem;
     border-radius: var(--radius-xs);
+    overflow-wrap: anywhere;
   }
 
   .skill-desc {
@@ -344,6 +365,24 @@ const domains = [
     .skills-grid,
     .domain-grid {
       grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .filter-toolbar {
+      align-items: stretch;
+    }
+
+    .filter-group,
+    .skills-counter {
+      width: 100%;
+    }
+
+    .skills-counter {
+      text-align: right;
+    }
+
+    .filter-btn {
+      max-width: 100%;
     }
   }
 </style>

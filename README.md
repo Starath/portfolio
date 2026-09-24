@@ -15,7 +15,7 @@ A clean, craft-driven personal portfolio built with **Astro 7**. Designed with e
 - **Content Layer**: Type-safe Content Collections (`src/content.config.ts`) backed by Zod 4 schemas for engineering case studies.
 - **Image Pipeline**: Responsive Astro `<Picture>` component generating multi-density AVIF and WebP variants from source rasters.
 - **SEO & Structured Data**: Complete OpenGraph, Twitter Cards, canonical URLs, Web App Manifest (`manifest.webmanifest`), SVG favicon, and Schema.org JSON-LD graph (`Person`, `WebSite`, and `ProfilePage`).
-- **Accessibility & UX**: Universal `@media (prefers-reduced-motion)` gates, `.skip-link` navigation, focus-visible outlines, scroll-spy section tracking, and one-click email clipboard copy with fallback.
+- **Accessibility & UX**: Reduced-motion gates, skip navigation, 44px controls, visible keyboard focus, responsive project diagrams, semantic social links, and scroll-spy navigation with `aria-current`. Skill counts use stable tabular numerals; console output is explicitly marked as simulated. Email copy provides status feedback and a prompt fallback.
 - **CI/CD Pipeline**: GitHub Actions verify-and-deploy workflow (`.github/workflows/deploy.yml`) for automated testing and deployment to GitHub Pages.
 
 ---
@@ -31,7 +31,8 @@ src/
 │   ├── Skills.astro          # Technical stack & domain competency matrix
 │   ├── Projects.astro        # Structured engineering case feed
 │   ├── ProjectCard.astro     # Case study card with problem, solution, and stack
-│   └── Footer.astro          # Direct email box & social channels directory
+│   ├── Contact.astro         # Direct email actions & social channels directory
+│   └── Footer.astro          # Attribution & return-to-top navigation
 ├── content/             # Type-safe Content Layer entries
 │   └── projects/             # Markdown files with problems, solutions, and specs
 ├── data/                # Structured datasets

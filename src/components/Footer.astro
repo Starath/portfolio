@@ -30,9 +30,9 @@ const currentYear = new Date().getFullYear();
   }
 
   .footer-inner {
-    max-width: 980px;
+    max-width: var(--page-width);
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 clamp(1rem, 3vw, 2rem);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -47,6 +47,7 @@ const currentYear = new Date().getFullYear();
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .student-id {
@@ -69,6 +70,9 @@ const currentYear = new Date().getFullYear();
   }
 
   .back-top-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--text-secondary);
     text-decoration: none;
     transition: color var(--transition-fast);

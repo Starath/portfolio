@@ -13,10 +13,10 @@ const {
 
 <section id="home" class="hero-section">
   <!-- Telemetry Top Bar -->
-  <div class="telemetry-bar" aria-label="System telemetry">
+  <div class="telemetry-bar" aria-label="Developer details">
     <div class="telemetry-item">
       <span class="telemetry-dot" aria-hidden="true"></span>
-      <span class="telemetry-label">NODE:</span>
+      <span class="telemetry-label">ITB:</span>
       <span class="telemetry-val">ITB.IF.13523106</span>
     </div>
     <div class="telemetry-item">
@@ -42,7 +42,7 @@ const {
             src={avatarPhoto}
             alt="Athian Nugraha Muarajuang portrait"
             widths={[160, 240, 320, 480]}
-            sizes="(max-width: 768px) 110px, 140px"
+            sizes="110px"
             formats={['avif', 'webp']}
             quality={92}
             loading="eager"
@@ -95,10 +95,10 @@ const {
           <span class="win-btn win-max"></span>
         </div>
         <div class="terminal-title">athian@itb-node: ~ (zsh)</div>
-        <div class="terminal-status">LIVE</div>
+        <div class="terminal-status">DEMO</div>
       </div>
 
-      <div class="terminal-body" id="terminal-body" role="region" aria-live="polite">
+      <div class="terminal-body" id="terminal-body" role="region" aria-label="Developer console">
         <div class="term-line">
           <span class="term-prompt">athian@itb:~$</span>
           <span class="term-cmd">cat overview.json</span>
@@ -113,7 +113,7 @@ const {
 &#125;</code></pre>
         </div>
 
-        <div id="term-history"></div>
+        <div id="term-history" role="log" aria-live="polite" aria-label="Command output"></div>
 
         <div class="term-input-row">
           <label for="term-input" class="term-prompt">athian@itb:~$</label>
@@ -121,7 +121,7 @@ const {
             type="text"
             id="term-input"
             class="term-input"
-            placeholder="type 'help', 'projects', 'skills', 'ping'..."
+            placeholder="Type help, then Enter"
             autocomplete="off"
             spellcheck="false"
             aria-label="Interactive terminal input"
@@ -183,7 +183,8 @@ const {
 3rd-year Informatics Engineering undergraduate at ITB.
 Focused on systems engineering, low-level transport protocols, and computer vision.`,
     
-    ping: `PING itb.ac.id (167.205.22.84): 56 data bytes
+    ping: `[SIMULATED NETWORK DEMO — no request is sent]
+PING itb.ac.id (167.205.22.84): 56 data bytes
 64 bytes from 167.205.22.84: icmp_seq=0 ttl=58 time=14.2 ms
 64 bytes from 167.205.22.84: icmp_seq=1 ttl=58 time=12.8 ms
 --- itb.ac.id ping statistics ---
@@ -258,7 +259,7 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
 
 <style>
   .hero-section {
-    padding: 2.5rem 0 3.5rem;
+    padding: 2.5rem 0 4rem;
   }
 
   /* Telemetry Bar */
@@ -298,14 +299,15 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
   .telemetry-val {
     color: var(--text-primary);
     font-weight: 500;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Hero Grid */
   .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 1.05fr;
-    gap: 2.75rem;
-    align-items: start;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: center;
   }
 
   /* Identity */
@@ -317,17 +319,17 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
 
   .id-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
   }
 
   .avatar-box {
-    width: 140px;
-    height: 140px;
+    width: 110px;
+    height: 110px;
     border: 1px solid var(--border-default);
     background-color: var(--bg-surface);
     padding: 3px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-lg);
     flex-shrink: 0;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   }
@@ -336,10 +338,12 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     width: 100%;
     height: 100%;
     aspect-ratio: 1 / 1;
-    border-radius: calc(var(--radius-sm) - 1px);
+    border-radius: calc(var(--radius-lg) - 4px);
     object-fit: cover;
     object-position: center 20%;
     display: block;
+    outline: 1px solid oklch(1 0 0 / 0.1);
+    outline-offset: -1px;
   }
 
   .id-names {
@@ -357,7 +361,7 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
   }
 
   .hero-name {
-    font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.15;
@@ -380,7 +384,7 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
   }
 
   .hero-statement {
-    font-size: 0.98rem;
+    font-size: 1.05rem;
     color: var(--text-secondary);
     line-height: 1.65;
     margin: 0;
@@ -402,13 +406,15 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
+    min-height: 44px;
+    justify-content: center;
     font-family: var(--font-mono);
     font-size: 0.8rem;
     font-weight: 500;
     padding: 0.55rem 0.95rem;
     border-radius: var(--radius-sm);
     text-decoration: none;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
   }
 
   .cmd-primary {
@@ -424,7 +430,7 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
 
   .cmd-prompt {
     font-weight: 700;
-    color: var(--accent);
+    color: currentColor;
   }
 
   .cmd-secondary {
@@ -445,9 +451,10 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     border: 1px solid var(--border-default);
     border-radius: var(--radius-md);
     overflow: hidden;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.03), 0 8px 24px oklch(0 0 0 / 0.2);
   }
 
   .terminal-header {
@@ -492,7 +499,7 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
 
   .terminal-body {
     padding: 1rem 1.15rem;
-    max-height: 250px;
+    max-height: 310px;
     overflow-y: auto;
     font-family: var(--font-mono);
     font-size: 0.8rem;
@@ -501,41 +508,44 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     gap: 0.65rem;
   }
 
-  .term-line {
+  .terminal-body :global(.term-line) {
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
     line-height: 1.4;
   }
 
-  .term-prompt {
+  .terminal-body :global(.term-prompt) {
     color: var(--accent);
     font-weight: 600;
     user-select: none;
     flex-shrink: 0;
   }
 
-  .term-cmd {
+  .terminal-body :global(.term-cmd) {
+    overflow-wrap: anywhere;
+    min-width: 0;
     color: var(--text-primary);
   }
 
-  .term-output {
+  .terminal-body :global(.term-output) {
     color: var(--text-secondary);
   }
 
-  .term-pre {
+  .terminal-body :global(.term-pre) {
     margin: 0;
     font-family: inherit;
     font-size: inherit;
     white-space: pre-wrap;
     line-height: 1.45;
+    overflow-wrap: anywhere;
   }
 
-  .term-pre code {
+  .terminal-body :global(.term-pre code) {
     color: var(--text-code);
   }
 
-  .term-history-entry {
+  .terminal-body :global(.term-history-entry) {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -548,6 +558,15 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     align-items: center;
     gap: 0.5rem;
     margin-top: 0.25rem;
+    min-height: 44px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+  }
+
+  .term-input-row:focus-within {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 4px;
+    background-color: var(--accent-dim);
   }
 
   .term-input {
@@ -559,11 +578,11 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     outline: none;
     flex: 1;
     min-width: 0;
-    padding: 0;
+    padding: 0.5rem 0;
   }
 
   .term-input::placeholder {
-    color: #4B5563;
+    color: var(--text-muted);
   }
 
   .terminal-quick-chips {
@@ -590,9 +609,11 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
     border-radius: var(--radius-xs);
     font-family: inherit;
     font-size: inherit;
+    min-width: 44px;
+    min-height: 44px;
     padding: 0.2rem 0.45rem;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
   }
 
   .term-chip:hover {
@@ -609,9 +630,50 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
   }
 
   @media (max-width: 540px) {
+    .hero-section {
+      padding-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
     .telemetry-bar {
+      gap: 0.65rem 1rem;
+      order: 1;
+      margin: 2rem 0 0;
       font-size: 0.68rem;
     }
+
+    .action-dock {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .action-dock .cmd-btn:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .cmd-btn {
+      font-size: 0.75rem;
+      padding: 0.6rem 0.65rem;
+    }
+
+    .terminal-title {
+      font-size: 0.65rem;
+    }
+
+    .terminal-body {
+      padding: 1rem;
+    }
+
+    .term-input-row {
+      flex-wrap: wrap;
+    }
+
+    .term-input {
+      flex-basis: 100%;
+      font-size: 1rem;
+    }
+
 
     .id-header {
       flex-direction: column;
@@ -619,9 +681,5 @@ rtt min/avg/max = 12.8/13.5/14.2 ms`
       gap: 1rem;
     }
 
-    .avatar-box {
-      width: 110px;
-      height: 110px;
-    }
   }
 </style>

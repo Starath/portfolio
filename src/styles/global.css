@@ -36,6 +36,7 @@
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
+  --page-width: 1120px;
   
   /* Transitions */
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -124,6 +125,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
   margin: 0;
+  text-wrap: balance;
 }
 
 h1 {
@@ -143,6 +145,7 @@ h3 {
 
 p {
   margin: 0 0 1rem 0;
+  text-wrap: pretty;
 }
 
 p:last-child {
@@ -154,15 +157,15 @@ a {
 }
 
 main {
-  max-width: 980px;
+  max-width: var(--page-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 clamp(1rem, 3vw, 2rem);
 }
 
 section {
   padding: 4.5rem 0;
   border-bottom: 1px solid var(--border-subtle);
-  scroll-margin-top: 70px;
+  scroll-margin-top: 90px;
   position: relative;
 }
 
@@ -237,4 +240,11 @@ section:last-of-type {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-strong);
+}
+
+@media (max-width: 540px) {
+  section {
+    padding: 3.25rem 0;
+    scroll-margin-top: 130px;
+  }
 }
